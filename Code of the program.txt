@@ -39,15 +39,23 @@ range_file = open(file_with_range, "r")
 #Putting cursor to the beginning of the file
 range_file.seek(0)
 
-#Getting rid of "\n"
-ip_range = range_file.readlines()[0].rstrip("\n")
+#Splitting the string into the list elements using coma as a separater
+ip_ranges = range_file.readlines()[0].split(',')
 
-#Finding IP addresses within the given range
-network_addresses = list(ip_network(ip_range).hosts())
+#Getting rid of spaces
+for i in range(0, len(ip_ranges)):
+    ip_ranges[i] = ip_ranges[i].strip()
 
-#Converting each IP address into a string format
+network_addresses = []
+
+#Making a list with IP addresses
+for ip_range in ip_ranges:
+    network_addresses += list(ip_network(ip_range).hosts())
+
+#Converting each element of the 'network_addresses' list into the string format
 for i in range(0, len(network_addresses)):
     network_addresses[i] = str(network_addresses[i])
+    
 
 print Fore.GREEN + Style.BRIGHT + "Searching for reachable addresses... Please wait, it may take some time" + "\n"
 
